@@ -90,7 +90,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
         Prefab pathPrefab = pipeSystem.findingMatchingPathPrefab(startPipe, Side.RIGHT).iterator().next();
         pipeSystem.insertIntoPipe(droppedItem, startPipe, Side.RIGHT, pathPrefab, 1f);
 
-        final long nextCheck = time.getGameTimeInMs()+3000;
+        final long nextCheck = time.getGameTimeInMs() + 3000;
         runWhile(() -> getHostContext().get(Time.class).getGameTimeInMs() < nextCheck);
 
         EntityRef chestEntity = blockEntityRegistry.getBlockEntityAt(Vector3i.east());
@@ -123,7 +123,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
         pipeSystem.insertIntoPipe(droppedItem, startPipe, Side.TOP, pathPrefab, 1f);
 
         for (int i = 0; i < 1000; i++) {
-            final long nextCheck = time.getGameTimeInMs()+100;
+            final long nextCheck = time.getGameTimeInMs() + 100;
             runWhile(() -> getHostContext().get(Time.class).getGameTimeInMs() < nextCheck);
             PipeFollowingComponent pfComponent = droppedItem.getComponent(PipeFollowingComponent.class);
             assertTrue(pfComponent.velocity >= .5f || pfComponent.velocity <= -.5f);
@@ -133,6 +133,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
 
     /**
      * Reads connection flags from an block at given location (used with ItemPipes)
+     *
      * @param location location of the pipe we want to check.
      * @return byte connection flags.
      */
@@ -142,7 +143,8 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
 
     /**
      * Deals damage to block on given location (simulates the situation when player destroys a block)
-     * @param location location of the block to deal damage
+     *
+     * @param location     location of the block to deal damage
      * @param damageAmount amount of the damage to be dealt.
      */
     private EntityRef dealDamageOn(Vector3i location, int damageAmount) {
@@ -154,8 +156,9 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
 
     /**
      * Simulates the situation when a player places a block.
+     *
      * @param location location of the block to be placed.
-     * @param id ID of the block family.
+     * @param id       ID of the block family.
      */
     private EntityRef placeBlock(Vector3i location, String id) {
         forceAndWaitForGeneration(location);
@@ -164,7 +167,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
         BlockFamily family = blockManager.getBlockFamily(id);
         EntityRef newBlock = blockItemFactory.newInstance(family);
 
-        Block block = family.getBlockForPlacement(worldProvider, blockEntityRegistry, location, Side.TOP, Side.FRONT);
+        Block block = family.getBlockForPlacement(location, Side.TOP, Side.FRONT);
 
         PlaceBlocks placeBlocks = new PlaceBlocks(location, block);
         worldProvider.getWorldEntity().send(placeBlocks);
@@ -175,8 +178,9 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
 
     /**
      * Spawns and drops an block item on desired location.
+     *
      * @param location location of the item we want to drop.
-     * @param id ID of blockItem's family.
+     * @param id       ID of blockItem's family.
      */
     private EntityRef dropBlockItem(Vector3f location, String id) {
         BlockFamily blockFamily = blockManager.getBlockFamily(id);

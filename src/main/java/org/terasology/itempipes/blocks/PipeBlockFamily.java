@@ -15,66 +15,59 @@
  */
 package org.terasology.itempipes.blocks;
 
-import gnu.trove.map.TByteObjectMap;
 import org.terasology.entitySystem.entity.EntityRef;
+import org.terasology.itempipes.components.PipeComponent;
+import org.terasology.itempipes.components.PipeConnectionComponent;
 import org.terasology.math.Rotation;
 import org.terasology.math.Side;
 import org.terasology.math.SideBitFlag;
 import org.terasology.math.geom.Vector3i;
-import org.terasology.segmentedpaths.blocks.PathFamily;
-import org.terasology.itempipes.components.PipeComponent;
-import org.terasology.itempipes.components.PipeConnectionComponent;
-import org.terasology.world.BlockEntityRegistry;
-import org.terasology.world.WorldProvider;
 import org.terasology.world.block.Block;
+import org.terasology.world.block.BlockBuilderHelper;
 import org.terasology.world.block.BlockUri;
+import org.terasology.world.block.family.BlockSections;
+import org.terasology.world.block.family.MultiConnectFamily;
+import org.terasology.world.block.family.RegisterBlockFamily;
 import org.terasology.world.block.family.UpdatesWithNeighboursFamily;
+import org.terasology.world.block.loader.BlockFamilyDefinition;
+import org.terasology.world.block.shapes.BlockShape;
 
 import java.util.EnumSet;
-import java.util.List;
 
-public class PipeBlockFamily extends UpdatesWithNeighboursFamily  implements PathFamily{
+@RegisterBlockFamily("pipe")
+@BlockSections({"no_connections", "one_connection", "line_connection", "2d_corner", "3d_corner", "2d_t", "cross", "3d_side", "five_connections", "all"})
+public class PipeBlockFamily extends MultiConnectFamily {
 
-    private byte connectionSides;
-    private TByteObjectMap<Block> blocks;
-    private TByteObjectMap<Rotation> rotation;
+    public static final String NO_CONNECTIONS = "no_connections";
+    public static final String ONE_CONNECTION = "one_connection";
+    public static final String TWO_CONNECTIONS_LINE = "line_connection";
+    public static final String TWO_CONNECTIONS_CORNER = "2d_corner";
+    public static final String THREE_CONNECTIONS_CORNER = "3d_corner";
+    public static final String THREE_CONNECTIONS_T = "2d_t";
+    public static final String FOUR_CONNECTIONS_CROSS = "cross";
+    public static final String FOUR_CONNECTIONS_SIDE = "3d_side";
+    public static final String FIVE_CONNECTIONS = "five_connections";
+    public static final String SIX_CONNECTIONS = "all";
 
-    public PipeBlockFamily(BlockUri blockUri, List<String> categories, Block archetypeBlock, TByteObjectMap<Block> blocks, byte connectionSides, TByteObjectMap<Rotation> rotation) {
-        super(null, blockUri, categories, archetypeBlock, blocks, connectionSides);
-        this.connectionSides = connectionSides;
-        this.blocks = blocks;
-        this.rotation = rotation;
+    public PipeBlockFamily(BlockFamilyDefinition definition, BlockShape shape, BlockBuilderHelper blockBuilder) {
+        super(definition, shape, blockBuilder);
     }
 
-    @Override
-    public Block getBlockForPlacement(WorldProvider worldProvider, BlockEntityRegistry blockEntityRegistry, Vector3i location, Side attachmentSide, Side direction) {
-        byte connections = 0;
-        for (Side connectSide : SideBitFlag.getSides(connectionSides)) {
-            if (connectionCondition(location, connectSide,worldProvider,blockEntityRegistry)) {
-                connections += SideBitFlag.getSide(connectSide);
-            }
-        }
-        return blocks.get(connections);
-    }
+    public PipeBlockFamily(BlockFamilyDefinition definition, BlockBuilderHelper blockBuilder) {
+        super(definition, blockBuilder);
 
-    @Override
-    public Block getBlockForNeighborUpdate(WorldProvider worldProvider, BlockEntityRegistry blockEntityRegistry, Vector3i location, Block oldBlock) {
-        byte connections = 0;
-        for (Side connectSide : SideBitFlag.getSides(connectionSides)) {
-            if (connectionCondition(location, connectSide,worldProvider,blockEntityRegistry)) {
-                connections += SideBitFlag.getSide(connectSide);
-            }
-        }
-        return blocks.get(connections);
-    }
+        BlockUri blockUri = new BlockUri(definition.getUrn());
 
-
-    public boolean connectionCondition(Vector3i blockLocation, Side connectSide,WorldProvider worldProvider,BlockEntityRegistry blockEntityRegistry) {
-        Vector3i neighborLocation = new Vector3i(blockLocation);
-        neighborLocation.add(connectSide.getVector3i());
-
-        EntityRef neighborEntity = blockEntityRegistry.getBlockEntityAt(neighborLocation);
-        return neighborEntity != null && (neighborEntity.hasComponent(PipeComponent.class) || neighborEntity.hasComponent(PipeConnectionComponent.class));
+        this.registerBlock(blockUri,definition,blockBuilder,NO_CONNECTIONS, (byte)0, Rotation.allValues());
+        this.registerBlock(blockUri,definition,blockBuilder,ONE_CONNECTION, SideBitFlag.getSides(Side.BACK), Rotation.allValues());
+        this.registerBlock(blockUri,definition,blockBuilder,TWO_CONNECTIONS_LINE, SideBitFlag.getSides(Side.BACK, Side.FRONT), Rotation.allValues());
+        this.registerBlock(blockUri,definition,blockBuilder,TWO_CONNECTIONS_CORNER, SideBitFlag.getSides(Side.LEFT, Side.BACK), Rotation.allValues());
+        this.registerBlock(blockUri,definition,blockBuilder,THREE_CONNECTIONS_CORNER, SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.TOP), Rotation.allValues());
+        this.registerBlock(blockUri,definition,blockBuilder,THREE_CONNECTIONS_T,  SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.FRONT), Rotation.allValues());
+        this.registerBlock(blockUri,definition,blockBuilder,FOUR_CONNECTIONS_CROSS,SideBitFlag.getSides(Side.RIGHT, Side.LEFT, Side.BACK, Side.FRONT), Rotation.allValues());
+        this.registerBlock(blockUri,definition,blockBuilder,FOUR_CONNECTIONS_SIDE,  SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.FRONT, Side.TOP), Rotation.allValues());
+        this.registerBlock(blockUri,definition,blockBuilder,FIVE_CONNECTIONS, SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.FRONT, Side.TOP, Side.BOTTOM), Rotation.allValues());
+        this.registerBlock(blockUri,definition,blockBuilder,SIX_CONNECTIONS, SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.FRONT, Side.TOP, Side.BOTTOM,Side.RIGHT), Rotation.allValues());
     }
 
     public EnumSet<Side> getSides(BlockUri blockUri)
@@ -91,15 +84,24 @@ public class PipeBlockFamily extends UpdatesWithNeighboursFamily  implements Pat
     }
 
 
-    public Rotation getRotationFor(BlockUri blockUri) {
-        if (getURI().equals(blockUri.getFamilyUri())) {
-            try {
-                byte connections = Byte.parseByte(blockUri.getIdentifier().toString());
-                return rotation.get(connections);
-            } catch (IllegalArgumentException e) {
-                return null;
-            }
-        }
-        return null;
+    @Override
+    public byte getConnectionSides() {
+        return SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.FRONT, Side.TOP, Side.BOTTOM,Side.RIGHT);
     }
+
+    @Override
+    protected boolean connectionCondition(Vector3i blockLocation, Side connectSide) {
+        Vector3i neighborLocation = new Vector3i(blockLocation);
+        neighborLocation.add(connectSide.getVector3i());
+
+        EntityRef neighborEntity = blockEntityRegistry.getBlockEntityAt(neighborLocation);
+        return neighborEntity != null && (neighborEntity.hasComponent(PipeComponent.class) || neighborEntity.hasComponent(PipeConnectionComponent.class));
+    }
+
+
+    @Override
+    public Block getArchetypeBlock() {
+        return blocks.get((byte)0);
+    }
+
 }

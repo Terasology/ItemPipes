@@ -1,6 +1,6 @@
 {
     "displayName": "Pipe Cable",
-    "rotation": "pipe",
+    "family": "pipe",
     "translucent": true,
     "no_connections": {
         "shape": "ItemPipes:NoCon",
