@@ -68,10 +68,10 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
             BlockMappingComponent blockMappingComponent = meta.prefab.getComponent(BlockMappingComponent.class);
             if (blockFamily instanceof PathFamily) {
 
-                Rotation rotation = ((PathFamily) blockFamily).getRotationFor(blockComponent.getBlock().getURI());
+                Rotation rotation = ((PathFamily) blockFamily).getRotationFor(blockComponent.block.getURI());
                 switch (ends) {
                     case START: {
-                        Vector3i segment = new Vector3i(blockComponent.getPosition()).add(rotation.rotate(blockMappingComponent.s1).getVector3i());
+                        Vector3i segment = new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s1).getVector3i());
                         EntityRef blockEntity = blockEntityRegistry.getBlockEntityAt(segment);
                         PathDescriptorComponent pathDescriptor = blockEntity.getComponent(PathDescriptorComponent.class);
                         if (pathDescriptor == null)
@@ -102,7 +102,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
 
                     }
                     case END: {
-                        Vector3i segment = new Vector3i(blockComponent.getPosition()).add(rotation.rotate(blockMappingComponent.s2).getVector3i());
+                        Vector3i segment = new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s2).getVector3i());
                         EntityRef blockEntity = blockEntityRegistry.getBlockEntityAt(segment);
                         PathDescriptorComponent pathDescriptor = blockEntity.getComponent(PathDescriptorComponent.class);
                         if (pathDescriptor == null)

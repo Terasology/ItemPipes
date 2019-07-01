@@ -37,14 +37,14 @@ public class InventoryInsertAction extends BaseComponentSystem {
     EntityManager entityManager;
 
     @ReceiveEvent
-    public void onInvetoryInsert( PipeInsertEvent event,EntityRef entityRef, InventoryComponent inventoryComponent) {
-       if(inventoryManager.giveItem(entityRef,EntityRef.NULL,event.getActor())){
-           ItemComponent itemComponent = event.getActor().getComponent(ItemComponent.class);
-           if (itemComponent != null) {
-               for (Component component : itemComponent.pickupPrefab.iterateComponents()) {
-                   event.getActor().removeComponent(component.getClass());
-               }
-           }
-       }
+    public void onInvetoryInsert(PipeInsertEvent event, EntityRef entityRef, InventoryComponent inventoryComponent) {
+        if (inventoryManager.giveItem(entityRef, EntityRef.NULL, event.getActor())) {
+            ItemComponent itemComponent = event.getActor().getComponent(ItemComponent.class);
+            if (itemComponent != null) {
+                for (Component component : itemComponent.pickupPrefab.iterateComponents()) {
+                    event.getActor().removeComponent(component.getClass());
+                }
+            }
+        }
     }
 }

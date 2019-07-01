@@ -2,6 +2,9 @@
     "displayName": "Pipe Cable",
     "family": "pipe",
     "translucent": true,
+    "entity": {
+         "keepActive": true
+    },
     "no_connections": {
         "shape": "ItemPipes:NoCon",
         "entity": {
