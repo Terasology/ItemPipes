@@ -168,7 +168,7 @@ public class PipeSystem extends BaseComponentSystem {
         BlockComponent blockComponent = pipe.getComponent(BlockComponent.class);
         if (blockComponent == null)
             return false;
-        Block block = blockComponent.getBlock();
+        Block block = blockComponent.block;
         BlockFamily family = block.getBlockFamily();
         if (family instanceof PathFamily) {
             BlockMappingComponent blockMappingComponent = prefab.getComponent(BlockMappingComponent.class);

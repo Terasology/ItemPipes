@@ -84,11 +84,11 @@ public class BlockMotionSystem extends BaseComponentSystem implements UpdateSubs
                 locationComponent.setWorldPosition(position);
             } else {
                 BlockComponent blockComponent = blockEntity.getComponent(BlockComponent.class);
-                BlockFamily blockFamily = blockComponent.getBlock().getBlockFamily();
+                BlockFamily blockFamily = blockComponent.block.getBlockFamily();
                 BlockMappingComponent blockMappingComponent = pathFollowingComponent.segmentMeta.prefab.getComponent(BlockMappingComponent.class);
                 if (blockFamily instanceof PathFamily) {
                     Rotation rotation = ((PathFamily) blockFamily).getRotationFor(blockComponent.getBlock().getURI());
-                    Vector3i position = new Vector3i(blockComponent.getPosition());
+                    Vector3i position = new Vector3i(blockComponent.position);
                     if (pathFollowingComponent.segmentMeta.sign == 1) {
                         position.add(rotation.rotate(blockMappingComponent.s2).getVector3i());
                     } else {
