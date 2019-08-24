@@ -7,7 +7,7 @@ import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.itempipes.components.PipeFollowingComponent;
 import org.terasology.itempipes.controllers.PipeSystem;
-import org.terasology.logic.health.DoDamageEvent;
+import org.terasology.logic.health.event.DoDamageEvent;
 import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.inventory.InventoryComponent;
 import org.terasology.logic.inventory.events.DropItemEvent;
