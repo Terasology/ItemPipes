@@ -11,7 +11,7 @@ _Check out **[AdditionalItemPipes](https://github.com/Terasology/AdditionalItemP
 _Note: The only way to obtain items provided by this module is to use `give <id>` command. To execute a command, open the console with <kbd>F1</kbd> key, type in a command and press <kbd>Enter</kbd>._
 
 1. Create a new world with the ItemPipes module enabled.
-2. Execute `give basicpipes` command to get some Pipes, and `give suction` to get some Suction Blocks.
+2. Execute `give basicpipe` command to get some Pipes, and `give suction` to get some Suction Blocks.
 3. Your inventory should also have a chest in it. If it doesn't, execute `give chest` to get it. Put all of the three mentioned items into the hotbar and place them in a way like on the screnshot below.
 4. Remove all items from the chest (if there were any) and go infront of the suction block.
 5. Drop an item on the suction block and watch it go through the pipe.
