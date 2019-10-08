@@ -7,8 +7,8 @@ import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.itempipes.components.PipeFollowingComponent;
 import org.terasology.itempipes.controllers.PipeSystem;
-import org.terasology.logic.health.event.DoDamageEvent;
 import org.terasology.logic.health.EngineDamageTypes;
+import org.terasology.logic.health.event.DoDamageEvent;
 import org.terasology.logic.inventory.InventoryComponent;
 import org.terasology.logic.inventory.events.DropItemEvent;
 import org.terasology.math.Side;
@@ -28,7 +28,7 @@ import org.terasology.world.block.items.OnBlockItemPlaced;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ItemPipesTest extends ModuleTestingEnvironment {
     private WorldProvider worldProvider;
@@ -42,6 +42,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
     public Set<String> getDependencies() {
         Set<String> modules = Sets.newHashSet();
         modules.add("engine");
+        modules.add("CoreBlocks");
         modules.add("Core");
         modules.add("SegmentedPaths");
         modules.add("ItemPipes");
@@ -83,7 +84,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
     public void chestInputTest() {
         placeBlock(Vector3i.west(), "ItemPipes:basicPipe");
         placeBlock(Vector3i.zero(), "ItemPipes:basicPipe");
-        placeBlock(Vector3i.east(), "Core:chest");
+        placeBlock(Vector3i.east(), "CoreBlocks:chest");
         EntityRef droppedItem = dropBlockItem(Vector3f.west().add(Vector3f.up()), "ItemPipes:suction");
 
         EntityRef startPipe = blockEntityRegistry.getBlockEntityAt(Vector3i.zero());
