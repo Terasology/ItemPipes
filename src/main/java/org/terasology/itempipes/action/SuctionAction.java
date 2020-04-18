@@ -28,6 +28,7 @@ import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
 import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.Side;
 import org.terasology.physics.CollisionGroup;
 import org.terasology.physics.StandardCollisionGroup;
@@ -119,7 +120,7 @@ public class SuctionAction  extends BaseComponentSystem {
                 }
             }
         }
-        event.getOtherEntity().send(new ImpulseEvent(blockComponent.getPosition().toVector3f().sub(locationComponent.getWorldPosition()).normalize().mul(2)));
+        event.getOtherEntity().send(new ImpulseEvent(JomlUtil.from(blockComponent.position.toVector3f().sub(locationComponent.getWorldPosition()).normalize().mul(2))));
     }
 
 }
