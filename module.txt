@@ -1,13 +1,13 @@
 {
     "id" : "ItemPipes",
-    "version" : "0.1.2-SNAPSHOT",
+    "version" : "0.2.0",
     "author" : "",
     "displayName" : "Item Pipes",
     "description" : "",
     "serverSideOnly" : false,
     "dependencies": [
-        {"id": "Core", "minVersion": "3.0.0"},
         {"id": "SegmentedPaths", "minVersion": "0.2.0"},
         {"id": "ModuleTestingEnvironment","minVersion": "0.1.0"}
-    ]
+    ],
+    "isLibrary": true
 }
