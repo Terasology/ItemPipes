@@ -59,8 +59,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
     public Set<String> getDependencies() {
         Set<String> modules = Sets.newHashSet();
         modules.add("engine");
-        modules.add("CoreBlocks");
-        modules.add("Core");
+        modules.add("CoreAdvancedAssets");
         modules.add("SegmentedPaths");
         modules.add("ItemPipes");
         return modules;
@@ -101,7 +100,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
     public void chestInputTest() {
         placeBlock(Vector3i.west(), "ItemPipes:basicPipe");
         placeBlock(Vector3i.zero(), "ItemPipes:basicPipe");
-        placeBlock(Vector3i.east(), "CoreBlocks:chest");
+        placeBlock(Vector3i.east(), "CoreAdvancedAssets:chest");
         EntityRef droppedItem = dropBlockItem(Vector3f.west().add(Vector3f.up()), "ItemPipes:suction");
 
         EntityRef startPipe = blockEntityRegistry.getBlockEntityAt(Vector3i.zero());
