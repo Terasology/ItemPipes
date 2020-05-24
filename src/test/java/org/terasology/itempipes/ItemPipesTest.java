@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,6 +45,7 @@ import org.terasology.world.block.items.OnBlockItemPlaced;
 import java.util.EnumSet;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ItemPipesTest extends ModuleTestingEnvironment {
@@ -78,7 +79,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
     @Test
     public void connectionTest() {
         placeBlock(Vector3i.zero(), "ItemPipes:basicPipe");
-        assertTrue(getConn(Vector3i.zero()) == 0);
+        assertEquals(0, getConn(Vector3i.zero()));
 
         //begin with 1 to omit the pipe without connections.
         for (byte connections = 1; connections < 64; connections++) {
@@ -88,7 +89,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
                 placeBlock(side.getVector3i(), "ItemPipes:basicPipe");
             }
 
-            assertTrue(getConn(Vector3i.zero()) == connections);
+            assertEquals(getConn(Vector3i.zero()), connections);
 
             for (Side side : sideSet) {
                 dealDamageOn(side.getVector3i(), 10000);
