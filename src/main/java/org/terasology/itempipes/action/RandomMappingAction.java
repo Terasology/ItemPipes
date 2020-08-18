@@ -17,7 +17,6 @@ package org.terasology.itempipes.action;
 
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
@@ -31,8 +30,8 @@ import java.util.Optional;
 public class RandomMappingAction  extends BaseComponentSystem {
     @ReceiveEvent(components = {PipeRandomMappingComponent.class})
     public void onSuctionPlaced(PipeMappingEvent event, EntityRef entityRef) {
-        Optional<Side> side =  event.getOutputSides().stream().skip((int) (event.getOutputSides().size() * Math.random())).findFirst();
-        if(side.isPresent()){
+        Optional<Side> side = event.getOutputSides().stream().skip((int) (event.getOutputSides().size() * Math.random())).findFirst();
+        if (side.isPresent()) {
             event.setOutputSide(side.get());
         }
     }

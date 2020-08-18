@@ -17,15 +17,13 @@ package org.terasology.itempipes.event;
 
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.AbstractConsumableEvent;
-import org.terasology.math.Side;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.segmentedpaths.SegmentMeta;
 
 public class PipeInsertEvent extends AbstractConsumableEvent {
     private SegmentMeta segmentMeta;
     private EntityRef actor;
 
-    public PipeInsertEvent(EntityRef actor, SegmentMeta meta){
+    public PipeInsertEvent(EntityRef actor, SegmentMeta meta) {
         this.segmentMeta = meta;
         this.actor = actor;
     }

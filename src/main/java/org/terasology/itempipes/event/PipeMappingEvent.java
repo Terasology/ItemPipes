@@ -15,16 +15,9 @@
  */
 package org.terasology.itempipes.event;
 
-import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.event.AbstractConsumableEvent;
-import org.terasology.entitySystem.prefab.Prefab;
-import org.terasology.math.Rotation;
 import org.terasology.math.Side;
-import org.terasology.segmentedpaths.SegmentMeta;
-import org.terasology.segmentedpaths.components.BlockMappingComponent;
-import org.terasology.world.block.Block;
 
-import java.util.List;
 import java.util.Set;
 
 public class PipeMappingEvent extends AbstractConsumableEvent {

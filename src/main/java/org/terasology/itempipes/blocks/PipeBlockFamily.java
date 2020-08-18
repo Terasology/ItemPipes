@@ -33,7 +33,6 @@ import org.terasology.world.block.BlockUri;
 import org.terasology.world.block.family.BlockSections;
 import org.terasology.world.block.family.MultiConnectFamily;
 import org.terasology.world.block.family.RegisterBlockFamily;
-import org.terasology.world.block.family.UpdatesWithNeighboursFamily;
 import org.terasology.world.block.loader.BlockFamilyDefinition;
 import org.terasology.world.block.shapes.BlockShape;
 

@@ -64,8 +64,9 @@ public class SuctionAction  extends BaseComponentSystem {
     public void onSuctionPlaced(OnBlockItemPlaced event, EntityRef entityRef) {
         EntityRef blockEntity = event.getPlacedBlock();
         SuctionComponent suctionComponent = blockEntity.getComponent(SuctionComponent.class);
-        if (suctionComponent == null || suctionComponent.collisionManifold != null)
+        if (suctionComponent == null || suctionComponent.collisionManifold != null) {
             return;
+        }
 
         BlockComponent blockComponent = blockEntity.getComponent(BlockComponent.class);
 
@@ -110,16 +111,17 @@ public class SuctionAction  extends BaseComponentSystem {
             if (suctionComponent.lastTime + suctionComponent.delay < time.getGameTimeInMs()) {
                 suctionComponent.lastTime = time.getGameTimeInMs();
                 Map<Side, EntityRef> pipes = teraPipeSystem.findPipes(blockComponent.getPosition());
-                Optional<Side> side = pipes.keySet().stream().skip((int) (pipes.keySet().size() * Math.random())).findFirst();
+                Optional<Side> side =
+                    pipes.keySet().stream().skip((int) (pipes.keySet().size() * Math.random())).findFirst();
                 if (side.isPresent()) {
                     EntityRef entityRef = pipes.get(side.get());
                     Set<Prefab> prefabs = teraPipeSystem.findingMatchingPathPrefab(entityRef, side.get().reverse());
                     Optional<Prefab> pick = prefabs.stream().skip((int) (prefabs.size() * Math.random())).findFirst();
-                    teraPipeSystem.insertIntoPipe(event.getOtherEntity(), entityRef, side.get().reverse(), pick.get(), 1f);
+                    teraPipeSystem.insertIntoPipe(event.getOtherEntity(), entityRef, side.get().reverse(), pick.get()
+                        , 1f);
                 }
             }
         }
         event.getOtherEntity().send(new ImpulseEvent(blockComponent.getPosition().toVector3f().sub(locationComponent.getWorldPosition()).normalize().mul(2)));
     }
-
 }
