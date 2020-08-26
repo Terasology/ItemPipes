@@ -31,8 +31,8 @@ import java.util.Optional;
 public class RandomMappingAction  extends BaseComponentSystem {
     @ReceiveEvent(components = {PipeRandomMappingComponent.class})
     public void onSuctionPlaced(PipeMappingEvent event, EntityRef entityRef) {
-        Optional<Side> side =  event.getOutputSides().stream().skip((int) (event.getOutputSides().size() * Math.random())).findFirst();
-        if(side.isPresent()){
+        Optional<Side> side = event.getOutputSides().stream().skip((int) (event.getOutputSides().size() * Math.random())).findFirst();
+        if (side.isPresent()) {
             event.setOutputSide(side.get());
         }
     }

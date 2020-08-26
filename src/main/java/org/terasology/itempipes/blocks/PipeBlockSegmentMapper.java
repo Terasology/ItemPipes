@@ -1,18 +1,5 @@
-/*
- * Copyright 2017 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes.blocks;
 
 import com.google.common.collect.Maps;
@@ -45,7 +32,8 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
     private SegmentCacheSystem segmentCacheSystem;
     private BlockEntityRegistry blockEntityRegistry;
 
-    public PipeBlockSegmentMapper(BlockEntityRegistry blockEntityRegistry, PathFollowerSystem pathFollowerSystem, SegmentSystem segmentSystem, SegmentCacheSystem segmentCacheSystem) {
+    public PipeBlockSegmentMapper(BlockEntityRegistry blockEntityRegistry, PathFollowerSystem pathFollowerSystem,
+                                  SegmentSystem segmentSystem, SegmentCacheSystem segmentCacheSystem) {
         this.blockEntityRegistry = blockEntityRegistry;
         this.pathFollowerSystem = pathFollowerSystem;
         this.segmentCacheSystem = segmentCacheSystem;
@@ -71,11 +59,14 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                 Rotation rotation = ((PathFamily) blockFamily).getRotationFor(blockComponent.block.getURI());
                 switch (ends) {
                     case START: {
-                        Vector3i segment = new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s1).getVector3i());
+                        Vector3i segment =
+                            new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s1).getVector3i());
                         EntityRef blockEntity = blockEntityRegistry.getBlockEntityAt(segment);
-                        PathDescriptorComponent pathDescriptor = blockEntity.getComponent(PathDescriptorComponent.class);
-                        if (pathDescriptor == null)
+                        PathDescriptorComponent pathDescriptor =
+                            blockEntity.getComponent(PathDescriptorComponent.class);
+                        if (pathDescriptor == null) {
                             return null;
+                        }
 
                         Vector3f v2 = segmentSystem.segmentPosition(blockEntity);
                         Quat4f q2 = segmentSystem.segmentRotation(blockEntity);
@@ -95,18 +86,22 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                         }
                         PipeMappingEvent pipeMappingEvent = blockEntity.send(new PipeMappingEvent(paths.keySet()));
                         Prefab prefab = paths.get(pipeMappingEvent.getOutputSide());
-                        if (prefab == null)
+                        if (prefab == null) {
                             return null;
+                        }
 
                         return new MappingResult(prefab, blockEntity);
 
                     }
                     case END: {
-                        Vector3i segment = new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s2).getVector3i());
+                        Vector3i segment =
+                            new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s2).getVector3i());
                         EntityRef blockEntity = blockEntityRegistry.getBlockEntityAt(segment);
-                        PathDescriptorComponent pathDescriptor = blockEntity.getComponent(PathDescriptorComponent.class);
-                        if (pathDescriptor == null)
+                        PathDescriptorComponent pathDescriptor =
+                            blockEntity.getComponent(PathDescriptorComponent.class);
+                        if (pathDescriptor == null) {
                             return null;
+                        }
 
                         Vector3f v2 = segmentSystem.segmentPosition(blockEntity);
                         Quat4f q2 = segmentSystem.segmentRotation(blockEntity);
@@ -126,8 +121,9 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                         }
                         PipeMappingEvent pipeMappingEvent = blockEntity.send(new PipeMappingEvent(paths.keySet()));
                         Prefab prefab = paths.get(pipeMappingEvent.getOutputSide());
-                        if (prefab == null)
+                        if (prefab == null) {
                             return null;
+                        }
 
                         return new MappingResult(prefab, blockEntity);
                     }

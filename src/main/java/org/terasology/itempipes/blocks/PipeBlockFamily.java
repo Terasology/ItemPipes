@@ -33,7 +33,6 @@ import org.terasology.world.block.BlockUri;
 import org.terasology.world.block.family.BlockSections;
 import org.terasology.world.block.family.MultiConnectFamily;
 import org.terasology.world.block.family.RegisterBlockFamily;
-import org.terasology.world.block.family.UpdatesWithNeighboursFamily;
 import org.terasology.world.block.loader.BlockFamilyDefinition;
 import org.terasology.world.block.shapes.BlockShape;
 
@@ -67,15 +66,24 @@ public class PipeBlockFamily extends MultiConnectFamily implements PathFamily {
         BlockUri blockUri = new BlockUri(definition.getUrn());
 
         this.registerBlock(blockUri, definition, blockBuilder, NO_CONNECTIONS, (byte) 0, Rotation.allValues());
-        this.registerBlock(blockUri, definition, blockBuilder, ONE_CONNECTION, SideBitFlag.getSides(Side.BACK), Rotation.allValues());
-        this.registerBlock(blockUri, definition, blockBuilder, TWO_CONNECTIONS_LINE, SideBitFlag.getSides(Side.BACK, Side.FRONT), Rotation.allValues());
-        this.registerBlock(blockUri, definition, blockBuilder, TWO_CONNECTIONS_CORNER, SideBitFlag.getSides(Side.LEFT, Side.BACK), Rotation.allValues());
-        this.registerBlock(blockUri, definition, blockBuilder, THREE_CONNECTIONS_CORNER, SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.TOP), Rotation.allValues());
-        this.registerBlock(blockUri, definition, blockBuilder, THREE_CONNECTIONS_T, SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.FRONT), Rotation.allValues());
-        this.registerBlock(blockUri, definition, blockBuilder, FOUR_CONNECTIONS_CROSS, SideBitFlag.getSides(Side.RIGHT, Side.LEFT, Side.BACK, Side.FRONT), Rotation.allValues());
-        this.registerBlock(blockUri, definition, blockBuilder, FOUR_CONNECTIONS_SIDE, SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.FRONT, Side.TOP), Rotation.allValues());
-        this.registerBlock(blockUri, definition, blockBuilder, FIVE_CONNECTIONS, SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.FRONT, Side.TOP, Side.BOTTOM), Rotation.allValues());
-        this.registerBlock(blockUri, definition, blockBuilder, SIX_CONNECTIONS, SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.FRONT, Side.TOP, Side.BOTTOM, Side.RIGHT), Rotation.allValues());
+        this.registerBlock(blockUri, definition, blockBuilder, ONE_CONNECTION, SideBitFlag.getSides(Side.BACK),
+            Rotation.allValues());
+        this.registerBlock(blockUri, definition, blockBuilder, TWO_CONNECTIONS_LINE, SideBitFlag.getSides(Side.BACK,
+            Side.FRONT), Rotation.allValues());
+        this.registerBlock(blockUri, definition, blockBuilder, TWO_CONNECTIONS_CORNER, SideBitFlag.getSides(Side.LEFT
+            , Side.BACK), Rotation.allValues());
+        this.registerBlock(blockUri, definition, blockBuilder, THREE_CONNECTIONS_CORNER,
+            SideBitFlag.getSides(Side.LEFT, Side.BACK, Side.TOP), Rotation.allValues());
+        this.registerBlock(blockUri, definition, blockBuilder, THREE_CONNECTIONS_T, SideBitFlag.getSides(Side.LEFT,
+            Side.BACK, Side.FRONT), Rotation.allValues());
+        this.registerBlock(blockUri, definition, blockBuilder, FOUR_CONNECTIONS_CROSS,
+            SideBitFlag.getSides(Side.RIGHT, Side.LEFT, Side.BACK, Side.FRONT), Rotation.allValues());
+        this.registerBlock(blockUri, definition, blockBuilder, FOUR_CONNECTIONS_SIDE, SideBitFlag.getSides(Side.LEFT,
+            Side.BACK, Side.FRONT, Side.TOP), Rotation.allValues());
+        this.registerBlock(blockUri, definition, blockBuilder, FIVE_CONNECTIONS, SideBitFlag.getSides(Side.LEFT,
+            Side.BACK, Side.FRONT, Side.TOP, Side.BOTTOM), Rotation.allValues());
+        this.registerBlock(blockUri, definition, blockBuilder, SIX_CONNECTIONS, SideBitFlag.getSides(Side.LEFT,
+            Side.BACK, Side.FRONT, Side.TOP, Side.BOTTOM, Side.RIGHT), Rotation.allValues());
     }
 
     public EnumSet<Side> getSides(BlockUri blockUri) {
@@ -97,14 +105,16 @@ public class PipeBlockFamily extends MultiConnectFamily implements PathFamily {
     }
 
     @Override
-    public Set<Block> registerBlock(BlockUri root, BlockFamilyDefinition definition, BlockBuilderHelper blockBuilder, String name, byte sides, Iterable<Rotation> rotations) {
+    public Set<Block> registerBlock(BlockUri root, BlockFamilyDefinition definition, BlockBuilderHelper blockBuilder,
+                                    String name, byte sides, Iterable<Rotation> rotations) {
         Set<Block> result = Sets.newLinkedHashSet();
         for (Rotation rotation : rotations) {
             byte sideBits = 0;
             for (Side side : SideBitFlag.getSides(sides)) {
                 sideBits += SideBitFlag.getSide(rotation.rotate(side));
             }
-            Block block = blockBuilder.constructTransformedBlock(definition, name, rotation, new BlockUri(root, new Name(String.valueOf(sideBits))), this);
+            Block block = blockBuilder.constructTransformedBlock(definition, name, rotation, new BlockUri(root,
+                new Name(String.valueOf(sideBits))), this);
             rotationMap.put(sideBits, rotation);
             blocks.put(sideBits, block);
             result.add(block);
