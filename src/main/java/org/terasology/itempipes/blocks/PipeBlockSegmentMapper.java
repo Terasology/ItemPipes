@@ -3,14 +3,15 @@
 package org.terasology.itempipes.blocks;
 
 import com.google.common.collect.Maps;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.itempipes.event.PipeMappingEvent;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.Rotation;
 import org.terasology.math.Side;
-import org.terasology.math.geom.Quat4f;
-import org.terasology.math.geom.Vector3f;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.segmentedpaths.SegmentMeta;
 import org.terasology.segmentedpaths.blocks.PathFamily;
 import org.terasology.segmentedpaths.components.BlockMappingComponent;
@@ -49,7 +50,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
             BlockFamily blockFamily = blockComponent.getBlock().getBlockFamily();
 
             Vector3f v1 = segmentSystem.segmentPosition(meta.association);
-            Quat4f q1 = segmentSystem.segmentRotation(meta.association);
+            Quaternionf q1 = segmentSystem.segmentRotation(meta.association);
 
             Segment currentSegment = segmentCacheSystem.getSegment(meta.prefab);
 
@@ -60,7 +61,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                 switch (ends) {
                     case START: {
                         Vector3i segment =
-                            new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s1).getVector3i());
+                            new Vector3i(JomlUtil.from(blockComponent.position)).add(rotation.rotate(blockMappingComponent.s1).direction());
                         EntityRef blockEntity = blockEntityRegistry.getBlockEntityAt(segment);
                         PathDescriptorComponent pathDescriptor =
                             blockEntity.getComponent(PathDescriptorComponent.class);
@@ -69,7 +70,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                         }
 
                         Vector3f v2 = segmentSystem.segmentPosition(blockEntity);
-                        Quat4f q2 = segmentSystem.segmentRotation(blockEntity);
+                        Quaternionf q2 = segmentSystem.segmentRotation(blockEntity);
 
                         Map<Side, Prefab> paths = Maps.newHashMap();
                         for (Prefab d : pathDescriptor.descriptors) {
@@ -77,10 +78,10 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                             BlockMappingComponent nextBlockMapping = d.getComponent(BlockMappingComponent.class);
                             switch (segmentSystem.segmentMatch(currentSegment, v1, q1, nextSegment, v2, q2)) {
                                 case Start_End:
-                                    paths.put(Side.inDirection(q2.rotate(nextBlockMapping.s1.getVector3i().toVector3f())), d);
+                                    paths.put(Side.inDirection(JomlUtil.from(q2.transform(new Vector3f(nextBlockMapping.s1.direction())))), d);
                                     break;
                                 case Start_Start:
-                                    paths.put(Side.inDirection(q2.rotate(nextBlockMapping.s2.getVector3i().toVector3f())), d);
+                                    paths.put(Side.inDirection(JomlUtil.from(q2.transform(new Vector3f(nextBlockMapping.s2.direction())))), d);
                                     break;
                             }
                         }
@@ -95,7 +96,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                     }
                     case END: {
                         Vector3i segment =
-                            new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s2).getVector3i());
+                            new Vector3i(JomlUtil.from(blockComponent.position)).add(rotation.rotate(blockMappingComponent.s2).direction());
                         EntityRef blockEntity = blockEntityRegistry.getBlockEntityAt(segment);
                         PathDescriptorComponent pathDescriptor =
                             blockEntity.getComponent(PathDescriptorComponent.class);
@@ -104,7 +105,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                         }
 
                         Vector3f v2 = segmentSystem.segmentPosition(blockEntity);
-                        Quat4f q2 = segmentSystem.segmentRotation(blockEntity);
+                        Quaternionf q2 = segmentSystem.segmentRotation(blockEntity);
 
                         Map<Side, Prefab> paths = Maps.newHashMap();
                         for (Prefab d : pathDescriptor.descriptors) {
@@ -112,10 +113,10 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                             BlockMappingComponent nextBlockMapping = d.getComponent(BlockMappingComponent.class);
                             switch (segmentSystem.segmentMatch(currentSegment, v1, q1, nextSegment, v2, q2)) {
                                 case End_End:
-                                    paths.put(Side.inDirection(q2.rotate(nextBlockMapping.s1.getVector3i().toVector3f())), d);
+                                    paths.put(Side.inDirection(JomlUtil.from(q2.transform(new Vector3f(nextBlockMapping.s1.direction())))), d);
                                     break;
                                 case End_Start:
-                                    paths.put(Side.inDirection(q2.rotate(nextBlockMapping.s2.getVector3i().toVector3f())), d);
+                                    paths.put(Side.inDirection(JomlUtil.from(q2.transform(new Vector3f(nextBlockMapping.s2.direction())))), d);
                                     break;
                             }
                         }

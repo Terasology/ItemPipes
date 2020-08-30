@@ -4,6 +4,11 @@ package org.terasology.itempipes.controllers;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.joml.AxisAngle4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
+import org.joml.Vector3ic;
 import org.terasology.engine.Time;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.prefab.Prefab;
@@ -16,11 +21,9 @@ import org.terasology.logic.common.lifespan.LifespanComponent;
 import org.terasology.logic.inventory.ItemComponent;
 import org.terasology.logic.inventory.PickupComponent;
 import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.Rotation;
 import org.terasology.math.Side;
-import org.terasology.math.geom.Quat4f;
-import org.terasology.math.geom.Vector3f;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.physics.components.RigidBodyComponent;
 import org.terasology.registry.In;
 import org.terasology.registry.Share;
@@ -57,8 +60,8 @@ public class PipeSystem extends BaseComponentSystem {
     private SegmentCacheSystem segmentCacheSystem;
 
 
-    public boolean isConnected(Vector3i location, Side side) {
-        Vector3i toTest = location.add(side.getVector3i());
+    public boolean isConnected(Vector3ic location, Side side) {
+        Vector3i toTest = new Vector3i(location).add(side.direction());
         if (worldProvider.isBlockRelevant(toTest)) {
             Block block = worldProvider.getBlock(toTest);
             final BlockFamily blockFamily = block.getBlockFamily();
@@ -79,12 +82,12 @@ public class PipeSystem extends BaseComponentSystem {
 
     public Set<Prefab> findingMatchingPathPrefab(EntityRef pipe, Side side) {
         PathDescriptorComponent pathDescriptor = pipe.getComponent(PathDescriptorComponent.class);
-        Quat4f rotation = segmentSystem.segmentRotation(pipe);
+        Quaternionf rotation = segmentSystem.segmentRotation(pipe);
         Set<Prefab> results = Sets.newHashSet();
         for (Prefab path : pathDescriptor.descriptors) {
             BlockMappingComponent blockMappingComponent = path.getComponent(BlockMappingComponent.class);
-            Side s1 = Side.inDirection(rotation.rotate(blockMappingComponent.s1.getVector3i().toVector3f()));
-            Side s2 = Side.inDirection(rotation.rotate(blockMappingComponent.s2.getVector3i().toVector3f()));
+            Side s1 = Side.inDirection(JomlUtil.from(rotation.transform(new Vector3f(blockMappingComponent.s1.direction()))));
+            Side s2 = Side.inDirection(JomlUtil.from(rotation.transform(new Vector3f(blockMappingComponent.s2.direction()))));
             if (s1.equals(side) || s2.equals(side)) {
                 results.add(path);
             }
@@ -116,7 +119,7 @@ public class PipeSystem extends BaseComponentSystem {
         Map<Side, EntityRef> pipes = Maps.newHashMap();
         for (Side side : Side.values()) {
             Vector3i neighborLocation = new Vector3i(location);
-            neighborLocation.add(side.getVector3i());
+            neighborLocation.add(side.direction());
             if (worldProvider.isBlockRelevant(neighborLocation)) {
                 Block neighborBlock = worldProvider.getBlock(neighborLocation);
                 final BlockFamily blockFamily = neighborBlock.getBlockFamily();
@@ -177,7 +180,7 @@ public class PipeSystem extends BaseComponentSystem {
             pipeFollowingComponent.velocity = Math.abs(velocity);
 
             LocationComponent locationComponent = actor.getComponent(LocationComponent.class);
-            locationComponent.setWorldRotation(new Quat4f(Vector3f.up(), 0));
+            locationComponent.setWorldRotation(JomlUtil.from(new Quaternionf(new AxisAngle4f(0,0,1,0))));
 
             actor.saveComponent(locationComponent);
             actor.addOrSaveComponent(pathFollowerComponent);

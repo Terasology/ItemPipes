@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes.controllers;
 
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.terasology.entitySystem.entity.EntityManager;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
@@ -12,9 +14,8 @@ import org.terasology.itempipes.blocks.PipeBlockSegmentMapper;
 import org.terasology.itempipes.components.PipeConnectionComponent;
 import org.terasology.itempipes.event.PipeInsertEvent;
 import org.terasology.logic.location.LocationComponent;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.Rotation;
-import org.terasology.math.geom.Vector3f;
-import org.terasology.math.geom.Vector3i;
 import org.terasology.registry.In;
 import org.terasology.segmentedpaths.blocks.PathFamily;
 import org.terasology.segmentedpaths.components.BlockMappingComponent;
@@ -63,23 +64,24 @@ public class BlockMotionSystem extends BaseComponentSystem implements UpdateSubs
             LocationComponent locationComponent =  entityRef.getComponent(LocationComponent.class);
 
             pipeFollowingComponent.velocity -= pipeComponent.friction * delta;
-            if(Math.abs(pipeFollowingComponent.velocity) < .5f)
+            if(Math.abs(pipeFollowingComponent.velocity) < .5f) {
                 pipeFollowingComponent.velocity = .5f * Math.signum(pipeFollowingComponent.velocity);
+            }
 
             if (pathFollowerSystem.move(entityRef, delta * pipeFollowingComponent.velocity, segmentMapping)) {
                 Vector3f position = pathFollowerSystem.vehiclePoint(entityRef);
-                locationComponent.setWorldPosition(position);
+                locationComponent.setWorldPosition(JomlUtil.from(position));
             } else {
                 BlockComponent blockComponent = blockEntity.getComponent(BlockComponent.class);
                 BlockFamily blockFamily = blockComponent.block.getBlockFamily();
                 BlockMappingComponent blockMappingComponent = pathFollowingComponent.segmentMeta.prefab.getComponent(BlockMappingComponent.class);
                 if (blockFamily instanceof PathFamily) {
                     Rotation rotation = ((PathFamily) blockFamily).getRotationFor(blockComponent.getBlock().getURI());
-                    Vector3i position = new Vector3i(blockComponent.position);
+                    Vector3i position = new Vector3i(JomlUtil.from(blockComponent.position));
                     if (pathFollowingComponent.segmentMeta.sign == 1) {
-                        position.add(rotation.rotate(blockMappingComponent.s2).getVector3i());
+                        position.add(rotation.rotate(blockMappingComponent.s2).direction());
                     } else {
-                        position.add(rotation.rotate(blockMappingComponent.s1).getVector3i());
+                        position.add(rotation.rotate(blockMappingComponent.s1).direction());
                     }
                     EntityRef nextBlock = blockEntityRegistry.getBlockEntityAt(position);
                     pipeSystem.dropItem(entityRef);
