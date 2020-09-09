@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes.components;
 
-import org.terasology.entitySystem.Component;
-import org.terasology.math.Side;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.math.Side;
 
 import java.util.List;
 

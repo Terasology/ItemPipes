@@ -4,26 +4,31 @@ package org.terasology.itempipes.controllers;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.terasology.engine.Time;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.prefab.Prefab;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
-import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.core.Time;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.prefab.Prefab;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterMode;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.logic.common.lifespan.LifespanComponent;
+import org.terasology.engine.logic.inventory.ItemComponent;
+import org.terasology.engine.logic.inventory.PickupComponent;
+import org.terasology.engine.logic.location.LocationComponent;
+import org.terasology.engine.math.Rotation;
+import org.terasology.engine.math.Side;
+import org.terasology.engine.physics.components.RigidBodyComponent;
+import org.terasology.engine.registry.In;
+import org.terasology.engine.registry.Share;
+import org.terasology.engine.world.BlockEntityRegistry;
+import org.terasology.engine.world.WorldProvider;
+import org.terasology.engine.world.block.Block;
+import org.terasology.engine.world.block.BlockComponent;
+import org.terasology.engine.world.block.family.BlockFamily;
 import org.terasology.itempipes.blocks.PipeBlockFamily;
 import org.terasology.itempipes.components.PipeFollowingComponent;
-import org.terasology.logic.common.lifespan.LifespanComponent;
-import org.terasology.logic.inventory.ItemComponent;
-import org.terasology.logic.inventory.PickupComponent;
-import org.terasology.logic.location.LocationComponent;
-import org.terasology.math.Rotation;
-import org.terasology.math.Side;
 import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
-import org.terasology.physics.components.RigidBodyComponent;
-import org.terasology.registry.In;
-import org.terasology.registry.Share;
 import org.terasology.segmentedpaths.SegmentMeta;
 import org.terasology.segmentedpaths.blocks.PathFamily;
 import org.terasology.segmentedpaths.components.BlockMappingComponent;
@@ -32,11 +37,6 @@ import org.terasology.segmentedpaths.components.PathFollowerComponent;
 import org.terasology.segmentedpaths.controllers.SegmentCacheSystem;
 import org.terasology.segmentedpaths.controllers.SegmentSystem;
 import org.terasology.segmentedpaths.segments.Segment;
-import org.terasology.world.BlockEntityRegistry;
-import org.terasology.world.WorldProvider;
-import org.terasology.world.block.Block;
-import org.terasology.world.block.BlockComponent;
-import org.terasology.world.block.family.BlockFamily;
 
 import java.util.EnumSet;
 import java.util.Map;
@@ -149,7 +149,7 @@ public class PipeSystem extends BaseComponentSystem {
     public boolean insertIntoPipe(EntityRef actor, EntityRef pipe, Side side, Prefab prefab, float velocity) {
         if (actor.hasComponent(PipeFollowingComponent.class))
             return false;
-        if(!actor.hasComponent(ItemComponent.class))
+        if (!actor.hasComponent(ItemComponent.class))
             return false;
 
         BlockComponent blockComponent = pipe.getComponent(BlockComponent.class);

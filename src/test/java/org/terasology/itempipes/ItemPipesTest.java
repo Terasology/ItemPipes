@@ -1,46 +1,33 @@
-/*
- * Copyright 2020 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes;
 
 import com.google.common.collect.Sets;
 import org.junit.Before;
 import org.junit.Test;
-import org.terasology.engine.Time;
-import org.terasology.entitySystem.entity.EntityManager;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.prefab.Prefab;
+import org.terasology.engine.core.Time;
+import org.terasology.engine.entitySystem.entity.EntityManager;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.prefab.Prefab;
+import org.terasology.engine.logic.destruction.EngineDamageTypes;
+import org.terasology.engine.logic.inventory.events.DropItemEvent;
+import org.terasology.engine.math.Side;
+import org.terasology.engine.math.SideBitFlag;
+import org.terasology.engine.world.BlockEntityRegistry;
+import org.terasology.engine.world.WorldProvider;
+import org.terasology.engine.world.block.Block;
+import org.terasology.engine.world.block.BlockManager;
+import org.terasology.engine.world.block.entity.placement.PlaceBlocks;
+import org.terasology.engine.world.block.family.BlockFamily;
+import org.terasology.engine.world.block.items.BlockItemFactory;
+import org.terasology.engine.world.block.items.OnBlockItemPlaced;
+import org.terasology.health.logic.event.DoDamageEvent;
+import org.terasology.inventory.logic.InventoryComponent;
 import org.terasology.itempipes.components.PipeFollowingComponent;
 import org.terasology.itempipes.controllers.PipeSystem;
-import org.terasology.logic.health.EngineDamageTypes;
-import org.terasology.logic.health.event.DoDamageEvent;
-import org.terasology.logic.inventory.InventoryComponent;
-import org.terasology.logic.inventory.events.DropItemEvent;
-import org.terasology.math.Side;
-import org.terasology.math.SideBitFlag;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
 import org.terasology.moduletestingenvironment.ModuleTestingEnvironment;
-import org.terasology.world.BlockEntityRegistry;
-import org.terasology.world.WorldProvider;
-import org.terasology.world.block.Block;
-import org.terasology.world.block.BlockManager;
-import org.terasology.world.block.entity.placement.PlaceBlocks;
-import org.terasology.world.block.family.BlockFamily;
-import org.terasology.world.block.items.BlockItemFactory;
-import org.terasology.world.block.items.OnBlockItemPlaced;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -162,7 +149,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
     /**
      * Deals damage to block on given location (simulates the situation when player destroys a block)
      *
-     * @param location     location of the block to deal damage
+     * @param location location of the block to deal damage
      * @param damageAmount amount of the damage to be dealt.
      */
     private EntityRef dealDamageOn(Vector3i location, int damageAmount) {
@@ -176,7 +163,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
      * Simulates the situation when a player places a block.
      *
      * @param location location of the block to be placed.
-     * @param id       ID of the block family.
+     * @param id ID of the block family.
      */
     private EntityRef placeBlock(Vector3i location, String id) {
         forceAndWaitForGeneration(location);
@@ -198,7 +185,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
      * Spawns and drops an block item on desired location.
      *
      * @param location location of the item we want to drop.
-     * @param id       ID of blockItem's family.
+     * @param id ID of blockItem's family.
      */
     private EntityRef dropBlockItem(Vector3f location, String id) {
         BlockFamily blockFamily = blockManager.getBlockFamily(id);

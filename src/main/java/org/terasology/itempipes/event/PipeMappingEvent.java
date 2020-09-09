@@ -2,13 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes.event;
 
-import org.terasology.entitySystem.event.AbstractConsumableEvent;
-import org.terasology.math.Side;
+import org.terasology.engine.entitySystem.event.AbstractConsumableEvent;
+import org.terasology.engine.math.Side;
 
 import java.util.Set;
 
 public class PipeMappingEvent extends AbstractConsumableEvent {
-    private Set<Side> outputSides;
+    private final Set<Side> outputSides;
     private Side outputSide;
 
     public PipeMappingEvent(Set<Side> sides) {

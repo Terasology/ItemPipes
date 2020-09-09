@@ -3,11 +3,14 @@
 package org.terasology.itempipes.blocks;
 
 import com.google.common.collect.Maps;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.prefab.Prefab;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.prefab.Prefab;
+import org.terasology.engine.math.Rotation;
+import org.terasology.engine.math.Side;
+import org.terasology.engine.world.BlockEntityRegistry;
+import org.terasology.engine.world.block.BlockComponent;
+import org.terasology.engine.world.block.family.BlockFamily;
 import org.terasology.itempipes.event.PipeMappingEvent;
-import org.terasology.math.Rotation;
-import org.terasology.math.Side;
 import org.terasology.math.geom.Quat4f;
 import org.terasology.math.geom.Vector3f;
 import org.terasology.math.geom.Vector3i;
@@ -20,17 +23,14 @@ import org.terasology.segmentedpaths.controllers.SegmentCacheSystem;
 import org.terasology.segmentedpaths.controllers.SegmentMapping;
 import org.terasology.segmentedpaths.controllers.SegmentSystem;
 import org.terasology.segmentedpaths.segments.Segment;
-import org.terasology.world.BlockEntityRegistry;
-import org.terasology.world.block.BlockComponent;
-import org.terasology.world.block.family.BlockFamily;
 
 import java.util.Map;
 
 public class PipeBlockSegmentMapper implements SegmentMapping {
-    private PathFollowerSystem pathFollowerSystem;
-    private SegmentSystem segmentSystem;
-    private SegmentCacheSystem segmentCacheSystem;
-    private BlockEntityRegistry blockEntityRegistry;
+    private final PathFollowerSystem pathFollowerSystem;
+    private final SegmentSystem segmentSystem;
+    private final SegmentCacheSystem segmentCacheSystem;
+    private final BlockEntityRegistry blockEntityRegistry;
 
     public PipeBlockSegmentMapper(BlockEntityRegistry blockEntityRegistry, PathFollowerSystem pathFollowerSystem,
                                   SegmentSystem segmentSystem, SegmentCacheSystem segmentCacheSystem) {
@@ -60,10 +60,10 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                 switch (ends) {
                     case START: {
                         Vector3i segment =
-                            new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s1).getVector3i());
+                                new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s1).getVector3i());
                         EntityRef blockEntity = blockEntityRegistry.getBlockEntityAt(segment);
                         PathDescriptorComponent pathDescriptor =
-                            blockEntity.getComponent(PathDescriptorComponent.class);
+                                blockEntity.getComponent(PathDescriptorComponent.class);
                         if (pathDescriptor == null) {
                             return null;
                         }
@@ -95,10 +95,10 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                     }
                     case END: {
                         Vector3i segment =
-                            new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s2).getVector3i());
+                                new Vector3i(blockComponent.position).add(rotation.rotate(blockMappingComponent.s2).getVector3i());
                         EntityRef blockEntity = blockEntityRegistry.getBlockEntityAt(segment);
                         PathDescriptorComponent pathDescriptor =
-                            blockEntity.getComponent(PathDescriptorComponent.class);
+                                blockEntity.getComponent(PathDescriptorComponent.class);
                         if (pathDescriptor == null) {
                             return null;
                         }
