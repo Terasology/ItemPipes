@@ -18,6 +18,7 @@ package org.terasology.itempipes.blocks;
 import com.google.common.collect.Sets;
 import gnu.trove.map.TByteObjectMap;
 import gnu.trove.map.hash.TByteObjectHashMap;
+import org.joml.Vector3ic;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.itempipes.components.PipeComponent;
 import org.terasology.itempipes.components.PipeConnectionComponent;
@@ -127,6 +128,15 @@ public class PipeBlockFamily extends MultiConnectFamily implements PathFamily {
     protected boolean connectionCondition(Vector3i blockLocation, Side connectSide) {
         Vector3i neighborLocation = new Vector3i(blockLocation);
         neighborLocation.add(connectSide.getVector3i());
+
+        EntityRef neighborEntity = blockEntityRegistry.getBlockEntityAt(neighborLocation);
+        return neighborEntity != null && (neighborEntity.hasComponent(PipeComponent.class) || neighborEntity.hasComponent(PipeConnectionComponent.class));
+    }
+
+    @Override
+    protected boolean connectionCondition(Vector3ic blockLocation, Side connectSide) {
+        org.joml.Vector3i neighborLocation = new org.joml.Vector3i(blockLocation);
+        neighborLocation.add(connectSide.direction());
 
         EntityRef neighborEntity = blockEntityRegistry.getBlockEntityAt(neighborLocation);
         return neighborEntity != null && (neighborEntity.hasComponent(PipeComponent.class) || neighborEntity.hasComponent(PipeConnectionComponent.class));
