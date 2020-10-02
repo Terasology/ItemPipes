@@ -16,6 +16,7 @@
 package org.terasology.itempipes.action;
 
 import com.google.common.collect.Lists;
+import org.joml.Vector3f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.engine.Time;
@@ -123,6 +124,7 @@ public class SuctionAction  extends BaseComponentSystem {
                 }
             }
         }
-        event.getOtherEntity().send(new ImpulseEvent(blockComponent.getPosition().toVector3f().sub(locationComponent.getWorldPosition()).normalize().mul(2)));
+        event.getOtherEntity().send(new ImpulseEvent(new Vector3f(JomlUtil.from(blockComponent.position)).sub(locationComponent.getWorldPosition(new Vector3f())).normalize().mul(2)));
+
     }
 }
