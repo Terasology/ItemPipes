@@ -86,8 +86,8 @@ public class PipeSystem extends BaseComponentSystem {
         Set<Prefab> results = Sets.newHashSet();
         for (Prefab path : pathDescriptor.descriptors) {
             BlockMappingComponent blockMappingComponent = path.getComponent(BlockMappingComponent.class);
-            Side s1 = Side.inDirection(JomlUtil.from(rotation.transform(new Vector3f(blockMappingComponent.s1.direction()))));
-            Side s2 = Side.inDirection(JomlUtil.from(rotation.transform(new Vector3f(blockMappingComponent.s2.direction()))));
+            Side s1 = Side.inDirection(rotation.transform(new Vector3f(blockMappingComponent.s1.direction())));
+            Side s2 = Side.inDirection(rotation.transform(new Vector3f(blockMappingComponent.s2.direction())));
             if (s1.equals(side) || s2.equals(side)) {
                 results.add(path);
             }

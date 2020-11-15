@@ -78,10 +78,10 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                             BlockMappingComponent nextBlockMapping = d.getComponent(BlockMappingComponent.class);
                             switch (segmentSystem.segmentMatch(currentSegment, v1, q1, nextSegment, v2, q2)) {
                                 case Start_End:
-                                    paths.put(Side.inDirection(JomlUtil.from(q2.transform(new Vector3f(nextBlockMapping.s1.direction())))), d);
+                                    paths.put(Side.inDirection(q2.transform(new Vector3f(nextBlockMapping.s1.direction()))), d);
                                     break;
                                 case Start_Start:
-                                    paths.put(Side.inDirection(JomlUtil.from(q2.transform(new Vector3f(nextBlockMapping.s2.direction())))), d);
+                                    paths.put(Side.inDirection(q2.transform(new Vector3f(nextBlockMapping.s2.direction()))), d);
                                     break;
                             }
                         }
@@ -113,10 +113,10 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                             BlockMappingComponent nextBlockMapping = d.getComponent(BlockMappingComponent.class);
                             switch (segmentSystem.segmentMatch(currentSegment, v1, q1, nextSegment, v2, q2)) {
                                 case End_End:
-                                    paths.put(Side.inDirection(JomlUtil.from(q2.transform(new Vector3f(nextBlockMapping.s1.direction())))), d);
+                                    paths.put(Side.inDirection(q2.transform(new Vector3f(nextBlockMapping.s1.direction()))), d);
                                     break;
                                 case End_Start:
-                                    paths.put(Side.inDirection(JomlUtil.from(q2.transform(new Vector3f(nextBlockMapping.s2.direction())))), d);
+                                    paths.put(Side.inDirection(q2.transform(new Vector3f(nextBlockMapping.s2.direction()))), d);
                                     break;
                             }
                         }
