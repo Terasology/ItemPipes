@@ -28,6 +28,7 @@ import org.terasology.logic.health.EngineDamageTypes;
 import org.terasology.logic.health.event.DoDamageEvent;
 import org.terasology.logic.inventory.InventoryComponent;
 import org.terasology.logic.inventory.events.DropItemEvent;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.Side;
 import org.terasology.math.SideBitFlag;
 import org.terasology.math.geom.Vector3f;
@@ -187,7 +188,7 @@ public class ItemPipesTest extends ModuleTestingEnvironment {
 
         Block block = family.getBlockForPlacement(location, Side.TOP, Side.FRONT);
 
-        PlaceBlocks placeBlocks = new PlaceBlocks(location, block);
+        PlaceBlocks placeBlocks = new PlaceBlocks(JomlUtil.from(location), block);
         worldProvider.getWorldEntity().send(placeBlocks);
         newBlock.send(new OnBlockItemPlaced(location, blockEntityRegistry.getBlockEntityAt(location)));
 
