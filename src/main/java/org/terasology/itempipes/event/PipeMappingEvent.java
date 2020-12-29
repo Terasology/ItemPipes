@@ -17,7 +17,6 @@ public class PipeMappingEvent extends AbstractConsumableEvent {
             this.outputSide = side;
             break;
         }
-
     }
 
     public Set<Side> getOutputSides() {
