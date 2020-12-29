@@ -1,22 +1,10 @@
-/*
- * Copyright 2017 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2020 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes.action;
 
 import com.google.common.collect.Lists;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terasology.engine.Time;
@@ -28,6 +16,9 @@ import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.entitySystem.systems.BaseComponentSystem;
 import org.terasology.entitySystem.systems.RegisterMode;
 import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.itempipes.components.SuctionCollisionManifold;
+import org.terasology.itempipes.components.SuctionComponent;
+import org.terasology.itempipes.controllers.PipeSystem;
 import org.terasology.logic.location.LocationComponent;
 import org.terasology.math.JomlUtil;
 import org.terasology.math.Side;
@@ -38,9 +29,6 @@ import org.terasology.physics.components.shapes.SphereShapeComponent;
 import org.terasology.physics.events.CollideEvent;
 import org.terasology.physics.events.ImpulseEvent;
 import org.terasology.registry.In;
-import org.terasology.itempipes.components.SuctionCollisionManifold;
-import org.terasology.itempipes.components.SuctionComponent;
-import org.terasology.itempipes.controllers.PipeSystem;
 import org.terasology.world.block.BlockComponent;
 import org.terasology.world.block.items.OnBlockItemPlaced;
 
@@ -83,7 +71,7 @@ public class SuctionAction  extends BaseComponentSystem {
         triggerComponent.detectGroups = Lists.<CollisionGroup>newArrayList(StandardCollisionGroup.DEBRIS);
 
         LocationComponent locationComponent = new LocationComponent();
-        locationComponent.setWorldPosition(blockComponent.getPosition().toVector3f());
+        locationComponent.setWorldPosition(new Vector3f(blockComponent.getPosition(new Vector3i())));
 
         ref.addComponent(triggerComponent);
         ref.addComponent(sphereShapeComponent);
@@ -109,7 +97,7 @@ public class SuctionAction  extends BaseComponentSystem {
 
         LocationComponent locationComponent = event.getOtherEntity().getComponent(LocationComponent.class);
 
-        if (blockComponent.getPosition().toVector3f().distance(locationComponent.getWorldPosition()) <= 1f) {
+        if (new Vector3f(blockComponent.getPosition(new Vector3i())).distanceSquared(locationComponent.getWorldPosition(new Vector3f())) <= 1f) {
             if (suctionComponent.lastTime + suctionComponent.delay < time.getGameTimeInMs()) {
                 suctionComponent.lastTime = time.getGameTimeInMs();
                 Map<Side, EntityRef> pipes = teraPipeSystem.findPipes(JomlUtil.from(blockComponent.position));

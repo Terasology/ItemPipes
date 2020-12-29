@@ -21,7 +21,6 @@ import org.terasology.logic.common.lifespan.LifespanComponent;
 import org.terasology.logic.inventory.ItemComponent;
 import org.terasology.logic.inventory.PickupComponent;
 import org.terasology.logic.location.LocationComponent;
-import org.terasology.math.JomlUtil;
 import org.terasology.math.Rotation;
 import org.terasology.math.Side;
 import org.terasology.physics.components.RigidBodyComponent;
@@ -150,20 +149,24 @@ public class PipeSystem extends BaseComponentSystem {
 
 
     public boolean insertIntoPipe(EntityRef actor, EntityRef pipe, Side side, Prefab prefab, float velocity) {
-        if (actor.hasComponent(PipeFollowingComponent.class))
+        if (actor.hasComponent(PipeFollowingComponent.class)) {
             return false;
-        if(!actor.hasComponent(ItemComponent.class))
+        }
+        if (!actor.hasComponent(ItemComponent.class)) {
             return false;
+        }
 
         BlockComponent blockComponent = pipe.getComponent(BlockComponent.class);
-        if (blockComponent == null)
+        if (blockComponent == null) {
             return false;
+        }
         Block block = blockComponent.block;
         BlockFamily family = block.getBlockFamily();
         if (family instanceof PathFamily) {
             BlockMappingComponent blockMappingComponent = prefab.getComponent(BlockMappingComponent.class);
-            if (blockMappingComponent == null)
+            if (blockMappingComponent == null) {
                 return false;
+            }
             Rotation rotation = ((PathFamily) family).getRotationFor(block.getURI());
             PathFollowerComponent pathFollowerComponent = new PathFollowerComponent();
             if (rotation.rotate(blockMappingComponent.s1).equals(side)) {
@@ -180,7 +183,7 @@ public class PipeSystem extends BaseComponentSystem {
             pipeFollowingComponent.velocity = Math.abs(velocity);
 
             LocationComponent locationComponent = actor.getComponent(LocationComponent.class);
-            locationComponent.setWorldRotation(JomlUtil.from(new Quaternionf(new AxisAngle4f(0,0,1,0))));
+            locationComponent.setWorldRotation(new Quaternionf(new AxisAngle4f(0, 0, 1, 0)));
 
             actor.saveComponent(locationComponent);
             actor.addOrSaveComponent(pathFollowerComponent);
@@ -193,5 +196,4 @@ public class PipeSystem extends BaseComponentSystem {
         }
         return false;
     }
-
 }
