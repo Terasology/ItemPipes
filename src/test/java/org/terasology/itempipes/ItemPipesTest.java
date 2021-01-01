@@ -114,23 +114,24 @@ public class ItemPipesTest {
 
     @Test
     public void chestInputTest() {
+        Vector3ic left = Direction.LEFT.asVector3i();
+        Vector3ic center = new Vector3i();
+        Vector3ic rChest = Direction.RIGHT.asVector3i();
 
-        placePipe(Direction.LEFT.asVector3i());
-        placePipe(new Vector3i());
-        placeChest(Direction.RIGHT.asVector3i());
+        placePipe(left);
+        placePipe(center);
+        placeChest(rChest);
 
-        EntityRef droppedItem =
-            dropBlockItem(new Vector3f(Direction.LEFT.asVector3f()).add(Direction.UP.asVector3f()), "ItemPipes" +
-                ":suction");
+        EntityRef droppedItem = dropBlockItem(new Vector3f(Direction.LEFT.asVector3f()).add(Direction.UP.asVector3f()), "ItemPipes:suction");
 
-        EntityRef startPipe = blockEntityRegistry.getBlockEntityAt(new Vector3i());
+        EntityRef startPipe = blockEntityRegistry.getBlockEntityAt(left);
         Prefab pathPrefab = pipeSystem.findingMatchingPathPrefab(startPipe, Side.RIGHT).iterator().next();
         pipeSystem.insertIntoPipe(droppedItem, startPipe, Side.RIGHT, pathPrefab, 1f);
 
         final long nextCheck = time.getGameTimeInMs() + 3000;
         helper.runWhile(() -> time.getGameTimeInMs() < nextCheck);
 
-        EntityRef chestEntity = blockEntityRegistry.getBlockEntityAt(Direction.RIGHT.asVector3i());
+        EntityRef chestEntity = blockEntityRegistry.getBlockEntityAt(rChest);
         InventoryComponent inventory = chestEntity.getComponent(InventoryComponent.class);
 
         boolean foundDroppedItem = false;
@@ -200,7 +201,7 @@ public class ItemPipesTest {
 
         worldProvider.setBlock(location,
             itemPipesBlockFamily.getBlockForPlacement(new BlockPlacementData(location, Side.FRONT,
-                new org.joml.Vector3f())));
+                new Vector3f())));
     }
 
     private void placeChest(Vector3ic location) {
@@ -208,7 +209,7 @@ public class ItemPipesTest {
 
         worldProvider.setBlock(location,
             chestFamily.getBlockForPlacement(new BlockPlacementData(location, Side.FRONT,
-                new org.joml.Vector3f())));
+                new Vector3f())));
     }
 
 
@@ -223,7 +224,7 @@ public class ItemPipesTest {
         BlockItemFactory blockItemFactory = new BlockItemFactory(entityManager);
         EntityRef newBlock = blockItemFactory.newInstance(blockFamily);
 
-        newBlock.send(new DropItemEvent(new Vector3f(location)));
+        newBlock.send(new DropItemEvent(location));
 
         return newBlock;
     }
