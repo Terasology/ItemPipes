@@ -106,7 +106,7 @@ public class ItemPipesTest {
                 placePipe(side.direction());
             }
 
-            assertEquals(getConn(new Vector3i()), connections);
+            assertEquals(getConn(new Vector3i(pipeLocation)), connections);
 
             for (Side side : sideSet) {
                 dealDamageOn(side.direction(), 10000);
