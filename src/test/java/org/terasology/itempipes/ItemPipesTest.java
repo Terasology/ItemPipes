@@ -93,8 +93,10 @@ public class ItemPipesTest {
 
     @Test
     public void connectionTest() {
-        placePipe(new Vector3i());
-        Assertions.assertEquals(0, getConn(new Vector3i()));
+        Vector3ic pipeLocation = new Vector3i(0, 0, 0);
+
+        placePipe(pipeLocation);
+        Assertions.assertEquals(0, getConn(new Vector3i(pipeLocation)));
 
         //begin with 1 to omit the pipe without connections.
         for (byte connections = 1; connections < 64; connections++) {
