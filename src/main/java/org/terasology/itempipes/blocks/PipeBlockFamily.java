@@ -9,10 +9,11 @@ import org.joml.Vector3ic;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.itempipes.components.PipeComponent;
 import org.terasology.itempipes.components.PipeConnectionComponent;
+import org.terasology.math.JomlUtil;
 import org.terasology.math.Rotation;
 import org.terasology.math.Side;
 import org.terasology.math.SideBitFlag;
-import org.terasology.math.geom.Vector3i;
+import org.joml.Vector3i;
 import org.terasology.naming.Name;
 import org.terasology.segmentedpaths.blocks.PathFamily;
 import org.terasology.world.block.Block;
@@ -112,9 +113,9 @@ public class PipeBlockFamily extends MultiConnectFamily implements PathFamily {
 
 
     @Override
-    protected boolean connectionCondition(Vector3i blockLocation, Side connectSide) {
-        Vector3i neighborLocation = new Vector3i(blockLocation);
-        neighborLocation.add(connectSide.getVector3i());
+    protected boolean connectionCondition(org.terasology.math.geom.Vector3i blockLocation, Side connectSide) {
+        Vector3i neighborLocation = new Vector3i(JomlUtil.from(blockLocation));
+        neighborLocation.add(connectSide.direction());
 
         EntityRef neighborEntity = blockEntityRegistry.getBlockEntityAt(neighborLocation);
         return neighborEntity != null && (neighborEntity.hasComponent(PipeComponent.class) || neighborEntity.hasComponent(PipeConnectionComponent.class));
