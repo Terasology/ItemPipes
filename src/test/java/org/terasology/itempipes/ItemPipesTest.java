@@ -86,7 +86,7 @@ public class ItemPipesTest {
 
         BlockRegion region = new BlockRegion(0, 0, 0).expand(5, 5, 5);
         for (Vector3ic pos : region) {
-            helper.forceAndWaitForGeneration(JomlUtil.from(pos));
+            helper.forceAndWaitForGeneration(pos);
             worldProvider.setBlock(pos, airBlock);
         }
     }
@@ -199,7 +199,7 @@ public class ItemPipesTest {
     }
 
     private void placePipe(Vector3ic location) {
-        helper.forceAndWaitForGeneration(JomlUtil.from(location));
+        helper.forceAndWaitForGeneration(location);
 
         worldProvider.setBlock(location,
             itemPipesBlockFamily.getBlockForPlacement(new BlockPlacementData(location, Side.FRONT,
@@ -207,7 +207,7 @@ public class ItemPipesTest {
     }
 
     private void placeChest(Vector3ic location) {
-        helper.forceAndWaitForGeneration(JomlUtil.from(location));
+        helper.forceAndWaitForGeneration(location);
 
         worldProvider.setBlock(location,
             chestFamily.getBlockForPlacement(new BlockPlacementData(location, Side.FRONT,
