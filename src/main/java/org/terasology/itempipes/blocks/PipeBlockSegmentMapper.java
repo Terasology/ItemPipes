@@ -9,7 +9,6 @@ import org.joml.Vector3i;
 import org.terasology.entitySystem.entity.EntityRef;
 import org.terasology.entitySystem.prefab.Prefab;
 import org.terasology.itempipes.event.PipeMappingEvent;
-import org.terasology.math.JomlUtil;
 import org.terasology.math.Rotation;
 import org.terasology.math.Side;
 import org.terasology.segmentedpaths.SegmentMeta;
@@ -61,7 +60,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                 switch (ends) {
                     case START: {
                         Vector3i segment =
-                            new Vector3i(JomlUtil.from(blockComponent.position)).add(rotation.rotate(blockMappingComponent.s1).direction());
+                            new Vector3i(blockComponent.getPosition(new Vector3i())).add(rotation.rotate(blockMappingComponent.s1).direction());
                         EntityRef blockEntity = blockEntityRegistry.getBlockEntityAt(segment);
                         PathDescriptorComponent pathDescriptor =
                             blockEntity.getComponent(PathDescriptorComponent.class);
@@ -96,7 +95,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
                     }
                     case END: {
                         Vector3i segment =
-                            new Vector3i(JomlUtil.from(blockComponent.position)).add(rotation.rotate(blockMappingComponent.s2).direction());
+                            new Vector3i(blockComponent.getPosition(new Vector3i())).add(rotation.rotate(blockMappingComponent.s2).direction());
                         EntityRef blockEntity = blockEntityRegistry.getBlockEntityAt(segment);
                         PathDescriptorComponent pathDescriptor =
                             blockEntity.getComponent(PathDescriptorComponent.class);
