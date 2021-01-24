@@ -20,7 +20,6 @@ import org.terasology.itempipes.components.SuctionCollisionManifold;
 import org.terasology.itempipes.components.SuctionComponent;
 import org.terasology.itempipes.controllers.PipeSystem;
 import org.terasology.logic.location.LocationComponent;
-import org.terasology.math.JomlUtil;
 import org.terasology.math.Side;
 import org.terasology.physics.CollisionGroup;
 import org.terasology.physics.StandardCollisionGroup;
@@ -100,7 +99,7 @@ public class SuctionAction  extends BaseComponentSystem {
         if (new Vector3f(blockComponent.getPosition(new Vector3i())).distanceSquared(locationComponent.getWorldPosition(new Vector3f())) <= 1f) {
             if (suctionComponent.lastTime + suctionComponent.delay < time.getGameTimeInMs()) {
                 suctionComponent.lastTime = time.getGameTimeInMs();
-                Map<Side, EntityRef> pipes = teraPipeSystem.findPipes(JomlUtil.from(blockComponent.position));
+                Map<Side, EntityRef> pipes = teraPipeSystem.findPipes(blockComponent.getPosition(new Vector3i()));
                 Optional<Side> side =
                     pipes.keySet().stream().skip((int) (pipes.keySet().size() * Math.random())).findFirst();
                 if (side.isPresent()) {
@@ -112,7 +111,6 @@ public class SuctionAction  extends BaseComponentSystem {
                 }
             }
         }
-        event.getOtherEntity().send(new ImpulseEvent(new Vector3f(JomlUtil.from(blockComponent.position)).sub(locationComponent.getWorldPosition(new Vector3f())).normalize().mul(2)));
-
+        event.getOtherEntity().send(new ImpulseEvent(new Vector3f(blockComponent.getPosition(new Vector3i())).sub(locationComponent.getWorldPosition(new Vector3f())).normalize().mul(2)));
     }
 }
