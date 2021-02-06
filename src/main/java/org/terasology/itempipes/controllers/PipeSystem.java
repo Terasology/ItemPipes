@@ -1,4 +1,4 @@
-// Copyright 2020 The Terasology Foundation
+// Copyright 2021 The Terasology Foundation
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes.controllers;
 
@@ -114,7 +114,7 @@ public class PipeSystem extends BaseComponentSystem {
     }
 
 
-    public Map<Side, EntityRef> findPipes(Vector3i location) {
+    public Map<Side, EntityRef> findPipes(Vector3ic location) {
         Map<Side, EntityRef> pipes = Maps.newHashMap();
         for (Side side : Side.values()) {
             Vector3i neighborLocation = new Vector3i(location);
