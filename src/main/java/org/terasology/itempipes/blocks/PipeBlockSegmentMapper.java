@@ -1,4 +1,4 @@
-// Copyright 2020 The Terasology Foundation
+// Copyright 2021 The Terasology Foundation
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes.blocks;
 
@@ -46,7 +46,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
         if (meta.association.hasComponent(BlockComponent.class)) {
             BlockComponent blockComponent = meta.association.getComponent(BlockComponent.class);
 
-            BlockFamily blockFamily = blockComponent.getBlock().getBlockFamily();
+            BlockFamily blockFamily = blockComponent.block.getBlockFamily();
 
             Vector3f v1 = segmentSystem.segmentPosition(meta.association);
             Quaternionf q1 = segmentSystem.segmentRotation(meta.association);
