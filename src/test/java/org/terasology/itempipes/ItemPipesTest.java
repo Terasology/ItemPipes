@@ -33,7 +33,6 @@ import org.terasology.logic.health.event.DoDamageEvent;
 import org.terasology.logic.inventory.InventoryComponent;
 import org.terasology.logic.inventory.events.DropItemEvent;
 import org.terasology.math.Direction;
-import org.terasology.math.JomlUtil;
 import org.terasology.math.Side;
 import org.terasology.math.SideBitFlag;
 import org.terasology.moduletestingenvironment.MTEExtension;
