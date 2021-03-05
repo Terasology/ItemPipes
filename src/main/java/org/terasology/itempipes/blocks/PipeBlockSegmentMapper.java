@@ -46,7 +46,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
         if (meta.association.hasComponent(BlockComponent.class)) {
             BlockComponent blockComponent = meta.association.getComponent(BlockComponent.class);
 
-            BlockFamily blockFamily = blockComponent.block.getBlockFamily();
+            BlockFamily blockFamily = blockComponent.getBlock().getBlockFamily();
 
             Vector3f v1 = segmentSystem.segmentPosition(meta.association);
             Quaternionf q1 = segmentSystem.segmentRotation(meta.association);
@@ -56,7 +56,7 @@ public class PipeBlockSegmentMapper implements SegmentMapping {
             BlockMappingComponent blockMappingComponent = meta.prefab.getComponent(BlockMappingComponent.class);
             if (blockFamily instanceof PathFamily) {
 
-                Rotation rotation = ((PathFamily) blockFamily).getRotationFor(blockComponent.block.getURI());
+                Rotation rotation = ((PathFamily) blockFamily).getRotationFor(blockComponent.getBlock().getURI());
                 switch (ends) {
                     case START: {
                         Vector3i segment =
