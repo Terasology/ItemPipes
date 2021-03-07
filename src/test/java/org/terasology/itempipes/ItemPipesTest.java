@@ -51,8 +51,9 @@ import org.terasology.world.block.items.BlockItemFactory;
 
 import java.util.EnumSet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 @ExtendWith(MTEExtension.class)
 @UseWorldGenerator("ModuleTestingEnvironment:empty")
@@ -95,7 +96,7 @@ public class ItemPipesTest {
         Vector3ic pipeLocation = new Vector3i(0, 0, 0);
 
         placePipe(pipeLocation);
-        Assertions.assertEquals(0, getConn(new Vector3i(pipeLocation)));
+        assertEquals(0, getConn(new Vector3i(pipeLocation)));
 
         //begin with 1 to omit the pipe without connections.
         for (byte connections = 1; connections < 64; connections++) {
