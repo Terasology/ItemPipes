@@ -2,18 +2,18 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes.action;
 
-import org.terasology.entitySystem.Component;
-import org.terasology.entitySystem.entity.EntityManager;
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.ReceiveEvent;
-import org.terasology.entitySystem.systems.BaseComponentSystem;
-import org.terasology.entitySystem.systems.RegisterMode;
-import org.terasology.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.entitySystem.Component;
+import org.terasology.engine.entitySystem.entity.EntityManager;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.ReceiveEvent;
+import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
+import org.terasology.engine.entitySystem.systems.RegisterMode;
+import org.terasology.engine.entitySystem.systems.RegisterSystem;
+import org.terasology.engine.logic.inventory.InventoryComponent;
+import org.terasology.engine.logic.inventory.InventoryManager;
+import org.terasology.engine.logic.inventory.ItemComponent;
+import org.terasology.engine.registry.In;
 import org.terasology.itempipes.event.PipeInsertEvent;
-import org.terasology.logic.inventory.InventoryComponent;
-import org.terasology.logic.inventory.InventoryManager;
-import org.terasology.logic.inventory.ItemComponent;
-import org.terasology.registry.In;
 
 @RegisterSystem(RegisterMode.AUTHORITY)
 public class InventoryInsertAction extends BaseComponentSystem {

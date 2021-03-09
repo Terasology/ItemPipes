@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes.event;
 
-import org.terasology.entitySystem.entity.EntityRef;
-import org.terasology.entitySystem.event.AbstractConsumableEvent;
+import org.terasology.engine.entitySystem.entity.EntityRef;
+import org.terasology.engine.entitySystem.event.AbstractConsumableEvent;
 import org.terasology.segmentedpaths.SegmentMeta;
 
 public class PipeInsertEvent extends AbstractConsumableEvent {
