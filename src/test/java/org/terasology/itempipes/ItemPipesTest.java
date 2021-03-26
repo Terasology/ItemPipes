@@ -19,6 +19,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.terasology.engine.core.Time;
@@ -57,6 +58,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(MTEExtension.class)
 @UseWorldGenerator("ModuleTestingEnvironment:empty")
 @Dependencies({"ItemPipes", "CoreAdvancedAssets"})
+@Tag("MteTest")
 public class ItemPipesTest {
     @In
     private WorldProvider worldProvider;
