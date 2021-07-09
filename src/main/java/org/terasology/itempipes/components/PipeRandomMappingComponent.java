@@ -1,8 +1,8 @@
-// Copyright 2020 The Terasology Foundation
+// Copyright 2021 The Terasology Foundation
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes.components;
 
-import org.terasology.engine.entitySystem.Component;
+import org.terasology.gestalt.entitysystem.component.EmptyComponent;
 
-public class PipeRandomMappingComponent implements Component {
+public class PipeRandomMappingComponent extends EmptyComponent<PipeRandomMappingComponent> {
 }
