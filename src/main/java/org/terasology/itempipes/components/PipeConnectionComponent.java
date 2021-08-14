@@ -12,7 +12,7 @@ public class PipeConnectionComponent implements Component<PipeConnectionComponen
     List<Side> sides;
 
     @Override
-    public void copy(PipeConnectionComponent other) {
+    public void copyFrom(PipeConnectionComponent other) {
         this.sides = Lists.newArrayList(other.sides);
     }
 }

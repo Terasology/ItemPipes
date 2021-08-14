@@ -13,7 +13,7 @@ public class SuctionComponent implements Component<SuctionComponent> {
     public long lastTime;
 
     @Override
-    public void copy(SuctionComponent other) {
+    public void copyFrom(SuctionComponent other) {
         this.range = other.range;
         this.collisionManifold = other.collisionManifold;
         this.delay = other.delay;

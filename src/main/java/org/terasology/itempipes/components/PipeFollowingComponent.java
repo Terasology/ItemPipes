@@ -8,7 +8,7 @@ public class PipeFollowingComponent implements Component<PipeFollowingComponent>
     public float velocity = 0.0f;
 
     @Override
-    public void copy(PipeFollowingComponent other) {
+    public void copyFrom(PipeFollowingComponent other) {
         this.velocity = other.velocity;
     }
 }

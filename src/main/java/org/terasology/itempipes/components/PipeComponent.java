@@ -8,7 +8,7 @@ public class PipeComponent implements Component<PipeComponent> {
     public float friction = .1f;
 
     @Override
-    public void copy(PipeComponent other) {
+    public void copyFrom(PipeComponent other) {
         this.friction = other.friction;
     }
 }
