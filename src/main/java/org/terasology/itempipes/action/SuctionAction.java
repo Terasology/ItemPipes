@@ -11,6 +11,7 @@ import org.terasology.engine.core.Time;
 import org.terasology.engine.entitySystem.entity.EntityManager;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.event.EventPriority;
+import org.terasology.engine.entitySystem.event.Priority;
 import org.terasology.engine.entitySystem.event.ReceiveEvent;
 import org.terasology.engine.entitySystem.prefab.Prefab;
 import org.terasology.engine.entitySystem.systems.BaseComponentSystem;
@@ -82,7 +83,8 @@ public class SuctionAction  extends BaseComponentSystem {
 
     }
 
-    @ReceiveEvent(components = {SuctionCollisionManifold.class}, priority = EventPriority.PRIORITY_HIGH)
+    @Priority(EventPriority.PRIORITY_HIGH)
+    @ReceiveEvent(components = {SuctionCollisionManifold.class})
     public void onBump(CollideEvent event, EntityRef entity) {
 
         EntityRef owner = entity.getOwner();
