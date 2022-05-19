@@ -1,18 +1,5 @@
-/*
- * Copyright 2020 MovingBlocks
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2022 The Terasology Foundation
+// SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes;
 
 import org.joml.Vector3f;
@@ -26,9 +13,11 @@ import org.terasology.engine.core.Time;
 import org.terasology.engine.entitySystem.entity.EntityManager;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.prefab.Prefab;
+import org.terasology.engine.integrationenvironment.ModuleTestingHelper;
+import org.terasology.engine.integrationenvironment.jupiter.Dependencies;
+import org.terasology.engine.integrationenvironment.jupiter.MTEExtension;
+import org.terasology.engine.integrationenvironment.jupiter.UseWorldGenerator;
 import org.terasology.engine.logic.health.EngineDamageTypes;
-import org.terasology.module.health.events.DoDamageEvent;
-import org.terasology.module.inventory.components.InventoryComponent;
 import org.terasology.engine.logic.inventory.events.DropItemEvent;
 import org.terasology.engine.math.Direction;
 import org.terasology.engine.math.Side;
@@ -44,10 +33,8 @@ import org.terasology.engine.world.block.family.BlockPlacementData;
 import org.terasology.engine.world.block.items.BlockItemFactory;
 import org.terasology.itempipes.components.PipeFollowingComponent;
 import org.terasology.itempipes.controllers.PipeSystem;
-import org.terasology.moduletestingenvironment.MTEExtension;
-import org.terasology.moduletestingenvironment.ModuleTestingHelper;
-import org.terasology.moduletestingenvironment.extension.Dependencies;
-import org.terasology.moduletestingenvironment.extension.UseWorldGenerator;
+import org.terasology.module.health.events.DoDamageEvent;
+import org.terasology.module.inventory.components.InventoryComponent;
 
 import java.util.EnumSet;
 
@@ -56,10 +43,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @ExtendWith(MTEExtension.class)
-@UseWorldGenerator("ModuleTestingEnvironment:empty")
+@UseWorldGenerator("unittest:empty")
 @Dependencies({"ItemPipes", "CoreAdvancedAssets"})
 @Tag("MteTest")
 public class ItemPipesTest {
+
+    private BlockFamily itemPipesBlockFamily;
+    private BlockFamily chestFamily;
+
     @In
     private WorldProvider worldProvider;
     @In
@@ -75,13 +66,9 @@ public class ItemPipesTest {
     @In
     private ModuleTestingHelper helper;
 
-    private BlockFamily itemPipesBlockFamily;
-    private BlockFamily chestFamily;
-    private Block airBlock;
-
     @BeforeEach
     public void initialize() {
-        airBlock = blockManager.getBlock("engine:air");
+        Block airBlock = blockManager.getBlock("engine:air");
         itemPipesBlockFamily = blockManager.getBlockFamily("ItemPipes:basicPipe");
         chestFamily = blockManager.getBlockFamily("CoreAdvancedAssets:Chest.LEFT");
 
