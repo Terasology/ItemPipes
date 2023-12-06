@@ -9,7 +9,7 @@ import org.terasology.gestalt.entitysystem.component.Component;
 import java.util.List;
 
 public class PipeConnectionComponent implements Component<PipeConnectionComponent> {
-    List<Side> sides;
+    public List<Side> sides;
 
     @Override
     public void copyFrom(PipeConnectionComponent other) {
