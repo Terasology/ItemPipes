@@ -6,17 +6,13 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.terasology.engine.core.Time;
 import org.terasology.engine.entitySystem.entity.EntityManager;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.prefab.Prefab;
 import org.terasology.engine.integrationenvironment.ModuleTestingHelper;
-import org.terasology.engine.integrationenvironment.jupiter.Dependencies;
 import org.terasology.engine.integrationenvironment.jupiter.MTEExtension;
-import org.terasology.engine.integrationenvironment.jupiter.UseWorldGenerator;
 import org.terasology.engine.logic.health.EngineDamageTypes;
 import org.terasology.engine.logic.inventory.events.DropItemEvent;
 import org.terasology.engine.math.Direction;
@@ -35,6 +31,7 @@ import org.terasology.itempipes.components.PipeFollowingComponent;
 import org.terasology.itempipes.controllers.PipeSystem;
 import org.terasology.module.health.events.DoDamageEvent;
 import org.terasology.module.inventory.components.InventoryComponent;
+import org.terasology.engine.integrationenvironment.jupiter.IntegrationEnvironment;
 
 import java.util.EnumSet;
 
@@ -42,10 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-@ExtendWith(MTEExtension.class)
-@UseWorldGenerator("unittest:empty")
-@Dependencies({"ItemPipes", "CoreAdvancedAssets"})
-@Tag("MteTest")
+@IntegrationEnvironment(dependencies={"ItemPipes", "CoreAdvancedAssets"}, worldGenerator="unittest:empty")
 public class ItemPipesTest {
 
     private BlockFamily itemPipesBlockFamily;
