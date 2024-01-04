@@ -12,7 +12,6 @@ import org.terasology.engine.entitySystem.entity.EntityManager;
 import org.terasology.engine.entitySystem.entity.EntityRef;
 import org.terasology.engine.entitySystem.prefab.Prefab;
 import org.terasology.engine.integrationenvironment.ModuleTestingHelper;
-import org.terasology.engine.integrationenvironment.jupiter.MTEExtension;
 import org.terasology.engine.logic.health.EngineDamageTypes;
 import org.terasology.engine.logic.inventory.events.DropItemEvent;
 import org.terasology.engine.math.Direction;
@@ -39,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-@IntegrationEnvironment(dependencies={"ItemPipes", "CoreAdvancedAssets"}, worldGenerator="unittest:empty")
+@IntegrationEnvironment(dependencies = {"ItemPipes", "CoreAdvancedAssets"}, worldGenerator = "unittest:empty")
 public class ItemPipesTest {
 
     private BlockFamily itemPipesBlockFamily;
