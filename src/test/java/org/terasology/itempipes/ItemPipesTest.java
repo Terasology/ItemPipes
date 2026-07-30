@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-@IntegrationEnvironment(dependencies = {"ItemPipes", "CoreAdvancedAssets"}, worldGenerator = "unittest:empty")
+@IntegrationEnvironment(dependencies = {"ItemPipes", "CoreAdvancedAssets"})
 public class ItemPipesTest {
 
     private BlockFamily itemPipesBlockFamily;
