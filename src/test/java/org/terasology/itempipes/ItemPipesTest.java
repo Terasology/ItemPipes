@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 package org.terasology.itempipes;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 import org.joml.Vector3ic;
@@ -26,6 +27,7 @@ import org.terasology.engine.world.block.BlockRegion;
 import org.terasology.engine.world.block.family.BlockFamily;
 import org.terasology.engine.world.block.family.BlockPlacementData;
 import org.terasology.engine.world.block.items.BlockItemFactory;
+import org.terasology.engine.integrationenvironment.ChunkRegionFuture;
 import org.terasology.itempipes.components.PipeFollowingComponent;
 import org.terasology.itempipes.controllers.PipeSystem;
 import org.terasology.module.health.events.DoDamageEvent;
@@ -35,6 +37,7 @@ import org.terasology.engine.integrationenvironment.jupiter.IntegrationEnvironme
 import java.util.EnumSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -65,9 +68,14 @@ public class ItemPipesTest {
         itemPipesBlockFamily = blockManager.getBlockFamily("ItemPipes:basicPipe");
         chestFamily = blockManager.getBlockFamily("CoreAdvancedAssets:Chest.LEFT");
 
+        // Hold one relevance region over the whole working area and wait for it, rather than
+        // forcing each position separately. Per-position forcing left some of these chunks
+        // unloaded, and setBlock discards writes to an unloaded chunk without complaint, so the
+        // area was only partly cleared and later reads came back as engine:unloaded.
         BlockRegion region = new BlockRegion(0, 0, 0).expand(5, 5, 5);
+        ListenableFuture<ChunkRegionFuture> relevant = helper.makeBlocksRelevant(region);
+        assertFalse(helper.runUntil(relevant::isDone), "world generation did not finish in time");
         for (Vector3ic pos : region) {
-            helper.forceAndWaitForGeneration(pos);
             worldProvider.setBlock(pos, airBlock);
         }
     }
