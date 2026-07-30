@@ -8,6 +8,7 @@ import org.joml.Vector3i;
 import org.joml.Vector3ic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.terasology.engine.core.Time;
 import org.terasology.engine.entitySystem.entity.EntityManager;
 import org.terasology.engine.entitySystem.entity.EntityRef;
@@ -42,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @IntegrationEnvironment(dependencies = {"ItemPipes", "CoreAdvancedAssets"})
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ItemPipesTest {
 
     private BlockFamily itemPipesBlockFamily;
@@ -95,7 +97,8 @@ public class ItemPipesTest {
                 placePipe(side.direction());
             }
 
-            assertEquals(getConn(new Vector3i(pipeLocation)), connections);
+            assertEquals(connections, getConn(new Vector3i(pipeLocation)),
+                    () -> "pipe should report connections on " + sideSet);
 
             for (Side side : sideSet) {
                 dealDamageOn(side.direction(), 10000);
@@ -137,8 +140,6 @@ public class ItemPipesTest {
 
     @Test
     public void minimumVelocityTest() {
-        this.initialize();
-
         Vector3i newPipeLoc = new Vector3i();
         placePipe(new Vector3i(newPipeLoc));
         newPipeLoc.add(Direction.UP.asVector3i());
