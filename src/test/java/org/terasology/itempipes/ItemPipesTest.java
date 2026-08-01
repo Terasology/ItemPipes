@@ -8,7 +8,6 @@ import org.joml.Vector3i;
 import org.joml.Vector3ic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.terasology.engine.core.Time;
 import org.terasology.engine.entitySystem.entity.EntityManager;
 import org.terasology.engine.entitySystem.entity.EntityRef;
@@ -43,7 +42,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @IntegrationEnvironment(dependencies = {"ItemPipes", "CoreAdvancedAssets"})
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ItemPipesTest {
 
     private BlockFamily itemPipesBlockFamily;
